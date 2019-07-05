@@ -3,7 +3,7 @@
 - Clone repo `git clone GIT_URL`
 - Prerequisite: Node latest version
 - run `yarn install` to install dependencies
-- run `yarn start` to start local server
+- run `yarn dev` to start local server
 - visit `http://localhost:8080`
 
 # Raisin FE tech challenge
