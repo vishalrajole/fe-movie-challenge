@@ -1,8 +1,8 @@
 {
-  "name": "vishal-rajole-fe-challenge",
+  "name": "fe-movie-challenge",
   "version": "1.0.0",
   "main": "index.js",
-  "repository": "https://Vishal_Rajole@bitbucket.org/raisinrecruiting/vishal-rajole-fe-challenge.git",
+  "repository": "https://github.com/vishalrajole/fe-movie-challenge.git",
   "author": "vishalrajole1991@gmail.com",
   "license": "MIT",
   "dependencies": {
