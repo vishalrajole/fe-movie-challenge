@@ -4,7 +4,7 @@ import { Button } from "../../../style/button";
 
 export const Badge = styled.span`
   display: inline-block;
-  background: ${props => {
+  background: ${(props) => {
     if (props.success) {
       return "green";
     } else if (props.warning) {
@@ -13,9 +13,9 @@ export const Badge = styled.span`
       return "#30345A";
     }
   }};
-  color: ${props => props.theme.BASE_TEXT};
+  color: ${(props) => props.theme.BASE_TEXT};
   padding: 5px 10px;
-  border-radius: ${props => props.theme.BORDER_RADIUS_LG};
+  border-radius: ${(props) => props.theme.BORDER_RADIUS_LG};
 `;
 
 export const MoviePoster = styled.div`
@@ -41,14 +41,14 @@ export const MovieTitle = styled.h1`
   small {
     display: flex;
     font-size: 1rem;
-    color: ${props => props.theme.TEXT_LIGHT};
+    color: ${(props) => props.theme.TEXT_LIGHT};
   }
 `;
 
 export const SmallInfo = styled.p`
   font-size: 0.8rem;
   margin: 10px 0 20px 0;
-  color: ${props => props.theme.TEXT_LIGHT};
+  color: ${(props) => props.theme.TEXT_LIGHT};
   > span + span {
     margin-left: 10px;
   }
@@ -66,4 +66,12 @@ export const SectionTitle = styled.h4`
   font-size: 1.5rem;
   font-weight: lighter;
   margin: 10px 0 10px 0;
+`;
+
+export const Error = styled.div`
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 56px;
 `;

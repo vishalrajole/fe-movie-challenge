@@ -9,7 +9,8 @@ import {
   MovieTitle,
   SmallInfo,
   MovieDuration,
-  SectionTitle
+  SectionTitle,
+  Error,
 } from "./movie-details.style";
 import { IconClock, IconArrowLeft } from "../../../style/icons";
 import { Button } from "../../../style/button";
@@ -17,23 +18,21 @@ import { Button } from "../../../style/button";
 /**
  * Shows movie details, fetch movie details
  */
-const MovieDetails = props => {
+const MovieDetails = (props) => {
   const {
     match: { params },
-    fetchMovieDetails
+    fetchMovieDetails,
   } = props;
 
   const [movieDetails, setMovieDetails] = useState(null);
 
   /** default path should be moved to constants */
   const backdropImg = movieDetails
-    ? `https://image.tmdb.org/t/p/w1400_and_h450_face/${
-        movieDetails.backdrop_path
-      }`
+    ? `https://image.tmdb.org/t/p/w1400_and_h450_face/${movieDetails.backdrop_path}`
     : null;
 
   useEffect(() => {
-    fetchMovieDetails(params.movieId).then(movieDetails => {
+    fetchMovieDetails(params.movieId).then((movieDetails) => {
       setMovieDetails(movieDetails);
     });
   }, [fetchMovieDetails]);
@@ -41,7 +40,7 @@ const MovieDetails = props => {
   /** generate genre list separated by comma */
   const getMovieGenre = () => {
     if (movieDetails) {
-      return movieDetails.genres.map(genre => genre.name).toString();
+      return movieDetails.genres.map((genre) => genre.name).toString();
     }
     return null;
   };
@@ -50,7 +49,7 @@ const MovieDetails = props => {
   const getProductionCompanies = () => {
     if (movieDetails) {
       return movieDetails.production_companies
-        .map(company => company.name)
+        .map((company) => company.name)
         .toString();
     }
     return null;
@@ -61,43 +60,46 @@ const MovieDetails = props => {
     props.history.push("/movies");
   };
 
+  console.log("movieDetails: ", movieDetails);
   return (
-    movieDetails && (
-      <>
-        <MoviePoster>
-          <img src={backdropImg} alt={backdropImg} />
-          <Button onClick={redirectToHomePage}>
-            <IconArrowLeft />
-          </Button>
-        </MoviePoster>
-        <MovieTitle>
-          {movieDetails.title}
-          <small>{movieDetails.tagline}</small>
-        </MovieTitle>
-
-        <SmallInfo>
-          {getMovieGenre()} | {movieDetails.release_date}
-        </SmallInfo>
-        <SmallInfo>
-          <Badge success={movieDetails.status.includes("Released")}>
-            {movieDetails.status}
-          </Badge>
-          <Badge>
-            {`${movieDetails.vote_average} rating by ${movieDetails.vote_count}
+    <>
+      {!movieDetails ? (
+        <Error>Failed to fetch movie details. Please try to reload</Error>
+      ) : (
+        <>
+          <MoviePoster>
+            <img src={backdropImg} alt={backdropImg} />
+            <Button onClick={redirectToHomePage}>
+              <IconArrowLeft />
+            </Button>
+          </MoviePoster>
+          <MovieTitle>
+            {movieDetails.title}
+            <small>{movieDetails.tagline}</small>
+          </MovieTitle>
+          <SmallInfo>
+            {getMovieGenre()} | {movieDetails.release_date}
+          </SmallInfo>
+          <SmallInfo>
+            <Badge success={movieDetails.status.includes("Released")}>
+              {movieDetails.status}
+            </Badge>
+            <Badge>
+              {`${movieDetails.vote_average} rating by ${movieDetails.vote_count}
             voters`}
-          </Badge>
-          <MovieDuration>
-            <IconClock />
-            {movieDetails.runtime} minutes
-          </MovieDuration>
-        </SmallInfo>
-
-        <SectionTitle>Synopsis</SectionTitle>
-        <SmallInfo>{movieDetails.overview}</SmallInfo>
-        <SectionTitle>Production</SectionTitle>
-        <SmallInfo> {getProductionCompanies()}</SmallInfo>
-      </>
-    )
+            </Badge>
+            <MovieDuration>
+              <IconClock />
+              {movieDetails.runtime} minutes
+            </MovieDuration>
+          </SmallInfo>
+          <SectionTitle>Synopsis</SectionTitle>
+          <SmallInfo>{movieDetails.overview}</SmallInfo>
+          <SectionTitle>Production</SectionTitle>
+          <SmallInfo> {getProductionCompanies()}</SmallInfo>
+        </>
+      )}
+    </>
   );
 };
 
@@ -105,18 +107,15 @@ const MovieDetails = props => {
  * Proptypes
  */
 MovieDetails.propTypes = {
-  fetchMovieDetails: PropTypes.func
+  fetchMovieDetails: PropTypes.func,
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    movieDetails: state.movieDetails.movie
+    movieDetails: state.movieDetails.movie,
   };
 };
 
-export default connect(
-  mapStateToProps,
-  {
-    fetchMovieDetails
-  }
-)(MovieDetails);
+export default connect(mapStateToProps, {
+  fetchMovieDetails,
+})(MovieDetails);
